@@ -1,4 +1,5 @@
-﻿using SuperSocket.SocketBase;
+﻿using System.Text;
+using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Command;
 using SuperSocket.SocketBase.Protocol;
 
@@ -38,6 +39,18 @@ namespace URLogWin
             type = System.Text.Encoding.UTF8.GetString(
                 System.Convert.FromBase64String(type)
                     );
+        }
+
+        public string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (this.type != LogType.Exception)
+                sb.AppendFormat("{0}: {1}", this.type, this.log);
+            else
+                sb.Append(this.log);
+            sb.AppendLine();
+            sb.AppendLine(this.stack);
+            return sb.ToString();
         }
     }
 

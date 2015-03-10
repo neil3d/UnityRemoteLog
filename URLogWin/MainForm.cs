@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Drawing;
 using SuperSocket.SocketBase;
 using System.Windows.Forms;
@@ -179,14 +180,7 @@ namespace URLogWin
                 LogItem log = item.Tag as LogItem;
                 if (log != null)
                 {
-                    StringBuilder sb = new StringBuilder();
-                    if (log.type != LogType.Exception)
-                        sb.AppendFormat("{0}: {1}", log.type, log.log);
-                    else
-                        sb.Append(log.log);
-                    sb.AppendLine();
-                    sb.AppendLine(log.stack);
-                    this.textBoxDetail.Text = sb.ToString();
+                    this.textBoxDetail.Text = log.ToString();
                 }
             }
         }
@@ -226,6 +220,41 @@ namespace URLogWin
                     break;
             }
             return viz;
+        }
+
+        /// <summary>
+        /// 保存日志到文件
+        /// </summary>
+        private void btnSave_Click(object sender, System.EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            dlg.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            dlg.FilterIndex = 2;
+            dlg.RestoreDirectory = true;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string path = dlg.FileName;
+                using (StreamWriter writer = File.CreateText(path))
+                {
+                    foreach(LogItem log in m_logList)
+                    {
+                        writer.WriteLine(log.ToString());
+                    }
+                    writer.Close();
+                }
+                this.lbStatus.Text = "Log Saved to " + path;
+            }
+        }
+
+        /// <summary>
+        /// 打开Help/Option窗口
+        /// </summary>
+        private void btnHelp_Click(object sender, System.EventArgs e)
+        {
+            OptionsDlg dlg = new OptionsDlg();
+            dlg.ShowDialog(this);
         }
 
     }

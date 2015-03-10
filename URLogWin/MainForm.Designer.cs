@@ -146,6 +146,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(23, 22);
             this.btnSave.Text = "Save to File";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnHelp
             // 
@@ -155,6 +156,7 @@
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(23, 22);
             this.btnHelp.Text = "Help";
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // panelStart
             // 
