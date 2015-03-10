@@ -35,6 +35,7 @@ public class RemoteLog
 
     static RemoteLog s_instance = new RemoteLog();
     List<LogItem> m_logList = new List<LogItem>();
+    string m_app;
 
     Socket m_socket;
     int m_connect;
@@ -56,6 +57,7 @@ public class RemoteLog
 
         m_sending = 0;
         m_connect = 0;
+        m_app = Application.platform.ToString();
 
         ConnectHost();
 
@@ -97,7 +99,7 @@ public class RemoteLog
             Interlocked.Exchange(ref m_connect, 1);
 
             //--发送启动LOG
-            string startLog = string.Format("CMD_START \r\n");
+            string startLog = string.Format("CMD_START {0}\r\n", m_app);
             SendLog(startLog);
 
         }
